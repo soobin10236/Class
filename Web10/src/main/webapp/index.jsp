@@ -13,13 +13,79 @@
 	<%--
 	 
 	<!-- ex) -->
-	
 	<% Date date = new Date(); %> 
 	<%= date %><br/>
 	
 	--%>
+	
+	<!-- ex13) Driectory Path-->
+	<% Date date = new Date(); %> 
+	<%= date %><br/>
+	<h1>Index입니다</h1>
+	<P>
+	<a href="a.jsp">webapp - a.jsp</a>
+	<a href="./dog/b.jsp">webapp - dog - b.jsp</a>
+	<a href="./dog/sub/c.jsp">webapp - dog - sub - c.jsp</a>
+	
+	<%-- <!-- ex12) <a>-->
+	<% Date date = new Date(); %> 
+	<%= date %><br/>
+	
+	<%
+		for(int i = 0; i < 10; i ++){
+				out.println("<a href=a.jsp?num="+i+">["+i+"]</a>");
+		}
+	%> --%>
+	
+	<%-- <!-- ex11) colspan -->
+	<%
+	Date date = new Date();
+	%>
+	<%=date%><br />
 
-	<!-- ex9) 구구단 -->
+	<table border="1" align="center" width="80%">
+		<tr>
+			<td align="center" bgcolor="yellow">
+				<form method="post" action="testPage.jsp">
+					<table border="1" cellpadding="0" cellspacing="0" width="80%">
+						<tr>
+							<td colspan="3">회원가입</td>
+						</tr>
+						<tr>
+							<td>아이디</td>
+							<td><input type="text" name="name" /></td>
+							<td>아이디를 적어주세요</td>
+						</tr>
+						<tr>
+							<td>비밀번호</td>
+							<td><input type="password" name="pass" /></td>
+							<td>비밀번호를 입력하세요</td>
+						</tr>
+						<tr>
+							<td colspan="3"><input type="submit" value="가입하기"></td>
+						</tr>
+					</table>
+				</form>
+			</td>
+		</tr>
+	</table> --%>
+
+	<%-- <!-- ex10) form-->
+
+	<% Date date = new Date(); %>
+	<%= date %><br />
+
+	<fieldset>
+		<legend>제목</legend>
+		<form method="post" action="testPage.jsp">
+			<input type="text" name="name" value="apple" />
+			<input type="submit" value="전송" />
+			<p>
+		</form>
+	</fieldset> --%>
+
+
+	<%-- <!-- ex9) 구구단 -->
 
 	<%
 	Date date = new Date();
@@ -45,7 +111,7 @@
 		<%
 			}
 		%>
-	</table>
+	</table> --%>
 
 	<%-- <!-- ex8) html tag-->
 	<% Date date = new Date(); %> 
@@ -61,7 +127,7 @@
 		<option value="blue">Blue</option>
 		<option value="green">Green</option>
 	</select> --%>
-	
+
 	<%-- <!-- ex7) JSP for문-->
 	<body bgcolor = <%="green" %>>
 	<% Date date = new Date(); %>
@@ -82,7 +148,7 @@
 		</tr>
 	<%} %>
 	</table> --%>
-	
+
 	<%-- <!-- ex6) 테이블 출력 -->
 	<% Date date = new Date(); %> 
 	<%= date %>
@@ -100,16 +166,16 @@
 			<td><%="독수리" %></td>
 		</tr>
 	</table> --%>
-	
-	
+
+
 	<%-- <!-- ex5) import -->
 	<% //java.util.Date date = new java.util.Date(); %> 
 	
 	<%//@ page import = "java.util.*" %>
 	<% Date date = new Date(); %> 
 	<%= date %> --%>
-	
-	
+
+
 	<%-- <!-- ex4) JSP 선언문(함수작성) -->
 	<h1>호랑이</h1>
 	<%!
