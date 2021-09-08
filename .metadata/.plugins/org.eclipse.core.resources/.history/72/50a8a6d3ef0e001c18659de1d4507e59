@@ -1,0 +1,49 @@
+package Pack;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/memberList")
+public class MemberListServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private String[] memberList = new String[] {"È«±æµ¿","±è°©µ¹","±è°©¼ø"};
+   
+    public MemberListServlet() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("doGet Call");
+		response.setContentType("text/html;charset=UTF-8");
+		
+		PrintWriter out = response.getWriter();
+		out.println("<html>");
+		out.println("<head></head>");
+		out.println("<body>");
+		out.println("<tr>");
+		out.println("<td> È¸¿ø ÀÌ¸§ </td>");
+		for(int i = 0; i < memberList.length; i++) {
+			out.println("<td>");
+			out.println(memberList[i]);
+			out.println("</td>");
+		}
+		out.println("</tr>");
+		out.println("</table>");
+		out.println("</body>");
+	
+		
+		out.close();
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+}

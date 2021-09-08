@@ -1,0 +1,251 @@
+package Pack;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketOption;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+
+class ChatWindow{
+	
+	//field
+	private String name = null;
+	private Socket socket = null;
+    private Button buttonSend = new Button("Send");
+    private TextField textField = new TextField();
+    private TextArea textArea = new TextArea(30, 80);
+
+	
+	//constructor
+	public ChatWindow(String name, Socket socket) {
+		this.name = name;
+		this.socket = socket;
+		
+		new ChatClientReceiveThread(socket).start();
+	}
+
+	//method
+	public void show() {
+		
+	}
+	
+
+//inner Class : ChatClientReceiveThread -> 서버에서 broadcast() 로 보내는 메시지를
+//				클라이언트들이 수신하기 위한 쓰레드.
+	class ChatClientReceiveThread extends Thread{
+		
+		//field
+		Socket socket = null;
+
+		//constructor
+		public ChatClientReceiveThread(Socket socket) {
+			this.socket = socket;
+		}
+		
+		//method
+		@Override
+		public void run() {
+			try {
+				BufferedReader br = new BufferedReader(
+						new InputStreamReader(socket.getInputStream(),"UTF-8"));
+				
+				while(true) {
+					String msg = br.readLine();
+					System.out.println(msg);
+				}
+			}catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+}
+
+
+
+public class Client222 extends Application{
+
+	Socket cs = null;
+	@Override
+	public void start(Stage arg0) throws Exception {
+		// TODO Auto-generated method stub
+		// System.out.println("실행순서 2");
+
+		// 선두작업
+		VBox root = new VBox(); // 버츄얼 -> 세로로 형성, 호라이즌 -> 가로로 형성
+		root.setPrefSize(400, 300); // 기본 layout 가로,세로 잡는것
+		root.setSpacing(5);
+
+		// ---------------------------------------------
+		// 실제 코딩을 작성하면 되는 부분이다.
+		// 1.컨트롤을 배치
+		Button btn1 = new Button("접속");
+		Button btn2 = new Button("Test");
+		
+		// 2. 컨트롤에 대한 이벤트 처리
+		btn1.setOnAction((AE)->{
+			try {
+				//대화명 입력
+				String name = null;
+				Scanner scanner = new Scanner(System.in);
+				
+				while(true) {
+					System.out.println("대화명을 입력하세요");
+					System.out.print(">>>");
+					name = scanner.nextLine();
+					//대화명 입력하면 빠져나감.
+					if(name.isEmpty() == false) {
+						break;
+					}
+					System.out.println("대화명은 한글자 이상 입력해야 합니다.\n");
+				}
+				scanner.close();
+				
+				//통신 소켓
+				cs = new Socket();
+				
+//				cs.connect(new InetSocketAddress("220.119.22.242", 5001));			
+				cs.connect(new InetSocketAddress("218.154.207.127", 5001));
+				System.out.println("채팅방에 입장하셨습니다.");
+				
+				new ChatWindow(name,cs).show();
+				
+				PrintWriter pw = new PrintWriter(
+						new OutputStreamWriter(
+								cs.getOutputStream(), StandardCharsets.UTF_8),true);
+				String request = "join:" + name + "\r\n";
+				pw.println(request);
+//				cs.connect(new InetSocketAddress("localhost", 5001));			
+			} catch (Exception e) {
+				// TODO: handle exceptio
+				e.printStackTrace();
+			} 
+//			finally{
+//	            try{
+//	                if( cs != null && !cs.isClosed()){
+//	                	cs.close();
+//	                }
+//	            }
+//	            catch(IOException e){
+//	                e.printStackTrace();
+//	            }
+//	        }
+		});
+		/*
+		btn2.setOnAction((AE)->{
+			
+			try {
+				//데이터 보내기 (Client -> OutputStream)
+				OutputStream outputStream = cs.getOutputStream();
+				String s = "apple : "; //보낼때는 무조건 byte로 보내야함.
+				byte[] data = s.getBytes();
+
+				outputStream.write(data);
+				System.out.println("data 보냈음.");
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		});
+		*/
+		btn2.setOnAction(new EventHandler<ActionEvent>() {
+			int count = 0;
+			@Override
+			public void handle(ActionEvent arg0) {
+				
+				try {
+					//데이터 보내기 (Client -> OutputStream)
+					OutputStream outputStream = cs.getOutputStream();
+					String s = "apple : " + count++; //보낼때는 무조건 byte로 보내야함.
+					byte[] data = s.getBytes();
+
+					outputStream.write(data);
+					System.out.println("data 보냈음.");
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+				
+			}
+		});
+		
+		root.getChildren().addAll(btn1, btn2);
+		// ---------------------------------------------
+
+		// 마무리작업
+		Scene scene = new Scene(root);
+		arg0.setTitle("Client");// Title 설정
+		arg0.setScene(scene); // UI구성 장면을 Scene으로 등록
+		arg0.show(); // 등록한 Scene을 보여줌
+
+		// System.out.println("실행순서 3");
+
+	}
+
+	public static void main(String[] args) {
+		// System.out.println("실행순서 1");
+		launch(); // launcher 에서 블로킹 잡힌다. 런쳐 종료하면 나옴
+		// System.out.println("실행순서 4");
+		System.out.println("Exit");
+	}
+
+}
+
+/*
+public class Client {
+
+	public static void main(String[] args) {
+		System.out.println("Client Start");
+		
+		//Client 소켓 생성
+		try {
+			//통신 소켓
+			Socket cs = new Socket();
+			//입력을 받고 나서 접속을 해보자
+			System.out.println("숫자를 입력하면 접속을 시도합니다.");
+			new Scanner(System.in).nextInt(); //블로킹
+			//원래는 IP주소 써야하지만 현재는 동일PC이므로 localhost, 필요하면 IP주소 갖다쓰셈
+//			cs.connect(new InetSocketAddress("112.162.204.185", 5002));
+//			cs.connect(new InetSocketAddress("118.38.27.121", 5001));
+			cs.connect(new InetSocketAddress("localhost", 5001));
+
+			System.out.println("숫자를 입력하면 서버에 데이터를 전송합니다.");
+			//블로킹
+			new Scanner(System.in).nextInt(); //블로킹
+			//데이터 보내기 (Client -> OutputStream)
+			OutputStream outputStream = cs.getOutputStream();
+			String s = "apple"; //보낼때는 무조건 byte로 보내야함.
+			byte[] data = s.getBytes();
+
+			outputStream.write(data);
+			System.out.println("data 보냈음.");
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exceptio
+			e.printStackTrace();
+		}
+		
+		new Scanner(System.in).nextInt(); //블로킹
+		System.out.println("Client End");
+	}
+}
+*/

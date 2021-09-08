@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Tiger</h1>
+	<h2>Tiger</h2>
+	<h3>Tiger</h3>
+	<h4>Tiger</h4>
+	<h5>Tiger</h5>
+	<h6>Tiger</h6>
+	<a href="https://www.naver.com">NAVER</a>
+	<p>This is a <br/> HTML exercise.</p>
+	<!-- Ctrl + Shift + / -->
+	<div style="background:rgb(255,77,71);width:100px;">RGB Test</div>
+	<div style="background:#ff00ff">#f0f</div>
+</body>
+</html>

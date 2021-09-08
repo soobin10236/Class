@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="true"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<item key="selection" value="th"/>
+		<list key="findhistory">
+			<item value="td"/>
+			<item value="IPText"/>
+			<item value="수신 오류"/>
+			<item value="setTop"/>
+			<item value="setHead"/>
+			<item value="setCenter"/>
+			<item value="setBottom"/>
+			<item value="clients"/>
+			<item value="Client"/>
+			<item value="textArea"/>
+			<item value="start"/>
+			<item value="bufferReader"/>
+			<item value="cliInfo"/>
+			<item value="connect"/>
+			<item value="InetSocketAddress"/>
+		</list>
+		<list key="replacehistory">
+			<item value="th"/>
+			<item value="Cle"/>
+			<item value="bufferdReader"/>
+			<item value="listWriters"/>
+			<item value="mask"/>
+			<item value=""/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="1138"/>
+		<item key="DIALOG_Y_ORIGIN" value="179"/>
+		<item key="DIALOG_WIDTH" value="340"/>
+		<item key="DIALOG_HEIGHT" value="454"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+</section>

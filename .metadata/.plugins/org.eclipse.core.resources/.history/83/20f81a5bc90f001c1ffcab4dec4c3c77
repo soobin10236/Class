@@ -1,0 +1,85 @@
+package Pack;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class DBConnection {
+	public Connection conn; //DB 커넥션 연결 객체
+	private static final String USERNAME = "root";//DBMS접속 시 아이디
+	private static final String PASSWORD = "1234";//DBMS접속 시 비밀번호
+	//    String URL = "jdbc:mysql://localhost:3306/db01?user=root&password=1234";//DBMS접속할 db명
+	private static String URL = "jdbc:mysql://localhost:3306/db01?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	public DBConnection() {
+		try {
+			System.out.println("생성자");
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+			System.out.println("드라이버 로딩 성공");
+		} catch (Exception e) {
+			System.out.println("드라이버 로딩 실패 ");
+
+			//                conn.close();
+		}
+
+
+	}
+
+	public void insertBoard(){
+		//쿼리문 준비
+		String sql = "insert into board values(?)";
+
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "호랑이");
+
+			int result = pstmt.executeUpdate();
+			if(result==1) {
+				System.out.println("Board데이터 삽입 성공!");
+
+			}
+
+		} catch (Exception e) {
+			System.out.println("Board데이터 삽입 실패!");
+		}    finally {
+			try {
+				if(pstmt!=null && !pstmt.isClosed()) {
+					pstmt.close();
+				}
+			} catch (Exception e2) {}
+		}
+
+
+	}  
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		DBConnection DBCon = new DBConnection();
+
+		Scanner scanner = new Scanner(System.in);
+		int value = scanner.nextInt();
+		System.out.println("1. insert  2. select  3. update  4. delete");
+		switch (value) {
+		case 1:
+
+			break;
+		case 2:
+
+			break;
+		case 3:
+
+			break;
+		case 4:
+
+			break;
+
+		default:
+			System.out.println("1, 2, 3, 4, 중에 입력하세요.");
+			break;
+		}
+
+	}
+}

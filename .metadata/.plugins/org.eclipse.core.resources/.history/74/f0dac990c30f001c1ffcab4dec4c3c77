@@ -1,0 +1,37 @@
+package Pack;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+
+
+public class DBConnection {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		String serverURL = "jdbc:mysql://localhost:3306/db01";
+		String id = "root"; // 계정명
+		String pw = "1234"; // 비밀번호
+
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection(serverURL, id, pw);
+			
+			String sql = "INSERT INTO TABLE01(FULLNAME, AGE, SALARY) VALUES ('호랑이',10,20000000);";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("드라이버가 존재하지 않습니다");
+		}
+	}
+
+}

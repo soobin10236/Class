@@ -1,0 +1,129 @@
+package Pack;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class Client123 extends Application 
+{
+	
+	Button btn1 = new Button("접속(클라이언트)");
+	Button btn2 = new Button("데이터보냄(클라이언트)");
+	Button btn3 = new Button("테스트버튼");
+	
+	Socket cs;
+	
+	
+	@Override
+	public void start(Stage arg0) throws Exception {
+		VBox root = new VBox();
+		root.setPrefSize(400, 300); //가로 세로길이 설정
+		root.setSpacing(15);
+		//--------------------------------------------
+		
+		Scanner inputTxt = new Scanner(System.in);
+		System.out.println("보낼 데이터를 입력하세요. 입력후 엔터눌러주세요");
+		String sendStr = inputTxt.nextLine();
+		
+		//
+		
+		
+		//이부분에 코드가 들어간다.
+		btn1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				try 
+				{
+					cs = new Socket();					
+				
+					//자가테스트
+					cs.connect(new InetSocketAddress("220.119.22.242", 5001));
+					
+					//수빈이형
+					//cs.connect(new InetSocketAddress("218.154.207.127", 5001));
+					
+					ClientReader clientReader = new ClientReader(cs);
+			        clientReader.start();
+		
+				} 
+				catch (Exception e) {e.printStackTrace();}
+			}
+		});
+		
+		
+		btn2.setOnAction(new EventHandler<ActionEvent>() {
+			int count = 0;
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				try 
+				{
+					OutputStream outputStream = cs.getOutputStream();
+					String user ="사용자1";
+					String s = sendStr;
+					
+					byte[] clientInfo = user.getBytes();
+					byte[] data = s.getBytes();
+					
+					outputStream.write(clientInfo);
+					outputStream.write(data);
+					
+					System.out.println("데이터보냄");
+					
+				} 
+				catch (Exception e) {e.printStackTrace();}
+			}
+		});
+		
+		
+		root.getChildren().addAll(btn1, btn2, btn3);
+		
+		//--------------------------------------------
+		Scene scene = new Scene(root);
+		
+		arg0.setScene(scene);
+		arg0.setTitle("Client");
+		arg0.show();
+	}
+	
+	
+	class ClientReader extends Thread {
+	    Socket clientSocket;
+	 
+	    ClientReader(Socket clientSocket) {
+	        this.clientSocket = clientSocket;
+	    }
+	 
+	    @Override
+	    public void run() {
+	        try {
+	            InputStream inputStream = clientSocket.getInputStream();
+	            System.out.println("데이터왔다감");
+	            byte[] byteArray = new byte[256];
+	            while (true) {
+	                int size = inputStream.read(byteArray);
+	                String readMessage = new String(byteArray, 0, size);
+	                System.out.println(" > " + readMessage);
+	            }
+	        } catch (Exception e) {}
+	    }
+	}//
+	
+	
+	public static void main(String[] args) 
+	{
+		launch();
+		
+		System.out.println("exit");
+	}
+}
+
+

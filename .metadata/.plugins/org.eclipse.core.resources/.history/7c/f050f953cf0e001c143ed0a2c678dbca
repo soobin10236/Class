@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Tiger</h1>
+	<h2>Tiger</h2>
+	<h3>Tiger</h3>
+	<h4>Tiger</h4>
+	<h5>Tiger</h5>
+	<h6>Tiger</h6>
+	<a href="https://www.naver.com">NAVER</a>
+	<p>This is a <br/> HTML exercise.</p>
+</body>
+</html>
